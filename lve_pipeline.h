@@ -5,7 +5,7 @@ using namespace std;
 #include<vector>
 namespace lve {
 	struct PipeLineConfigInfo {
-
+		VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
 	};
 	class LvePipeline {
 	private:
