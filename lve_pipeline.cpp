@@ -5,7 +5,7 @@
 using namespace std;
 
 namespace lve {
-	LvePipeline::LvePipeline(LveDevice& device, const string& vertFilePath, const string& fragFilePath, const PipeLineConfigInfo& configInfo) :lveDevice{device} {
+	LvePipeline::LvePipeline(LveDevice& device, const string& vertFilePath, const string& fragFilePath, const PipelineConfigInfo& configInfo) :lveDevice{device} {
 		createGraphicsPipeline(vertFilePath, fragFilePath,configInfo);
 	};
 	vector<char> LvePipeline::readFile(const string& filePath) {
@@ -28,7 +28,7 @@ namespace lve {
 	
 	}
 
-	void LvePipeline::createGraphicsPipeline(const string& vertFilePath, const string& fragFilePath, const PipeLineConfigInfo& configInfo) {
+	void LvePipeline::createGraphicsPipeline(const string& vertFilePath, const string& fragFilePath, const PipelineConfigInfo& configInfo) {
 		auto vertCode = readFile(vertFilePath);
 		auto fragCode = readFile(fragFilePath);
 
@@ -48,11 +48,22 @@ namespace lve {
 	
 	}
 
-      PipeLineConfigInfo LvePipeline::defaulPipeLineConfigInfo(uint32_t width, uint32_t height) {
-		  PipeLineConfigInfo configInfo{};
+      PipelineConfigInfo LvePipeline::defaulPipeLineConfigInfo(uint32_t width, uint32_t height) {
+		  PipelineConfigInfo configInfo{};
 		  configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		  configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 		  configInfo.inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
+
+		  configInfo.viewport.x = 0.0f;
+		  configInfo.viewport.y = 0.0f;
+		  configInfo.viewport.width = static_cast<float>(width);
+		  configInfo.viewport.height = static_cast<float>(height);
+		  configInfo.viewport.minDepth = 0.0f;
+		  configInfo.viewport.maxDepth = 1.0f;
+
+		  configInfo.scissor.offset = { 0, 0 };
+		  configInfo.scissor.extent = { width, height };
+
 		  return configInfo;
 	 }
 
